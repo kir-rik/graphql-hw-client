@@ -1,12 +1,7 @@
-import {gql, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import type { FC } from "react";
+import type { Location } from "./types";
 
-type MapperArguments = {
-  id: string;
-  name: string;
-  description: string;
-  photo: string;
-};
 const GET_LOCATIONS = gql`
   query GetLocations {
     locations {
@@ -24,21 +19,14 @@ export const Client: FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return data.locations.map(
-    ({ id, name, description, photo }: MapperArguments) => (
-      <div key={id}>
-        <h3>{name}</h3>
-        <img
-          width="400"
-          height="250"
-          alt="location-reference"
-          src={`${photo}`}
-        />
-        <br />
-        <b>About this location:</b>: Mapper
-        <p>{description}</p>
-        <br />
-      </div>
-    )
-  );
+  return data.locations.map(({ id, name, description, photo }: Location) => (
+    <div key={id}>
+      <h3>{name}</h3>
+      <img width="400" height="250" alt="location-reference" src={`${photo}`} />
+      <br />
+      <b>About this location:</b>: Mapper
+      <p>{description}</p>
+      <br />
+    </div>
+  ));
 };
